@@ -619,7 +619,7 @@
     if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
     setTimeout(type, del ? 45 : 75);
   }
-  type();
+  type()
 
   // Scroll reveal
   const obs = new IntersectionObserver(entries => {
