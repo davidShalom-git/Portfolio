@@ -1,631 +1,1726 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>David Shalom M — Full-Stack Developer</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          display: ['Bebas Neue', 'sans-serif'],
-          body: ['Outfit', 'sans-serif'],
-          mono: ['JetBrains Mono', 'monospace'],
-        },
-        colors: {
-          cream: '#F5F0E8',
-          ink: '#0D0D0D',
-          amber: '#E8820C',
-          'amber-light': '#FFF0DC',
-          muted: '#6B6459',
-          border: '#DDD8CF',
-        },
-        animation: {
-          'fade-up': 'fadeUp 0.7s ease forwards',
-          'blink': 'blink 0.8s step-end infinite',
-          'spin-slow': 'spin 12s linear infinite',
-        },
-        keyframes: {
-          fadeUp: {
-            '0%': { opacity: '0', transform: 'translateY(28px)' },
-            '100%': { opacity: '1', transform: 'translateY(0)' },
-          },
-          blink: {
-            '0%,100%': { opacity: '1' },
-            '50%': { opacity: '0' },
-          }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Shalom M — Full-Stack Developer & AI Engineer</title>
+  <meta name="description"
+    content="David Shalom M — Full-Stack MERN Developer & AI Engineer. Building production-grade applications serving 1000+ users." />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ═══ RESET & BASE ═══ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --text-dim: #52525b;
+      --accent: #8b5cf6;
+      --accent2: #06b6d4;
+      --accent3: #f472b6;
+      --gradient: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      --gradient2: linear-gradient(135deg, #f472b6, #8b5cf6);
+      --gradient3: linear-gradient(135deg, #06b6d4, #22d3ee);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg)
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    ul {
+      list-style: none
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace
+    }
+
+    /* ═══ UTILITIES ═══ */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .section {
+      padding: 100px 0
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent)
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      max-width: 520px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 48px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      outline: none
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(139, 92, 246, 0.3)
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.45)
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--glass-border);
+      color: var(--text);
+      background: var(--glass);
+      backdrop-filter: blur(12px)
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(139, 92, 246, 0.08)
+    }
+
+    /* ═══ GLASS CARD ═══ */
+    .glass-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+      transition: all 0.4s ease
+    }
+
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3)
+    }
+
+    /* ═══ GLOW ORB (BG EFFECT) ═══ */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.15
+    }
+
+    /* ═══ REVEAL ANIM ═══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .reveal-d1 {
+      transition-delay: 0.1s
+    }
+
+    .reveal-d2 {
+      transition-delay: 0.2s
+    }
+
+    .reveal-d3 {
+      transition-delay: 0.3s
+    }
+
+    .reveal-d4 {
+      transition-delay: 0.4s
+    }
+
+    /* ═══ NAVBAR ═══ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      transition: all 0.3s ease
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 10px 0
+    }
+
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em
+    }
+
+    .logo span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.3s;
+      position: relative
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient);
+      transition: width 0.3s;
+      border-radius: 2px
+    }
+
+    .nav-links a:hover {
+      color: var(--text)
+    }
+
+    .nav-links a:hover::after {
+      width: 100%
+    }
+
+    .nav-cta {
+      padding: 8px 22px !important;
+      border-radius: 50px;
+      background: var(--gradient);
+      color: #fff !important;
+      font-weight: 600 !important
+    }
+
+    .nav-cta::after {
+      display: none !important
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4)
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 200;
+      background: none;
+      border: none;
+      padding: 4px
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px)
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px)
+    }
+
+    /* MOBILE NAV */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(10, 10, 15, 0.97);
+      backdrop-filter: blur(24px);
+      z-index: 150;
+      padding: 80px 32px 32px;
+      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-left: 1px solid var(--glass-border)
+    }
+
+    .mobile-nav.open {
+      right: 0
+    }
+
+    .mobile-nav a {
+      display: block;
+      padding: 14px 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--glass-border);
+      transition: color 0.3s
+    }
+
+    .mobile-nav a:hover {
+      color: var(--accent)
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 140;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s
+    }
+
+    .mobile-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 24px
+    }
+
+    .hero-badge .pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.5)
       }
     }
-  }
-</script>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { background: #F5F0E8; color: #0D0D0D; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: #F5F0E8; }
-  ::-webkit-scrollbar-thumb { background: #E8820C; }
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px
+    }
 
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
+    .hero-name .gradient {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
 
-  /* Marquee */
-  .marquee-track {
-    display: flex;
-    gap: 3rem;
-    animation: marquee 20s linear infinite;
-    white-space: nowrap;
-  }
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
+    .hero-typed {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
 
-  /* Typed cursor */
-  #typed::after { content: '|'; animation: blink 0.8s step-end infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
+    .hero-typed .cursor {
+      color: var(--accent);
+      animation: blink 1s step-end infinite
+    }
 
-  /* Nav underline */
-  .nav-link { position: relative; }
-  .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #E8820C; transition: width 0.3s; }
-  .nav-link:hover::after { width: 100%; }
+    @keyframes blink {
+      50% {
+        opacity: 0
+      }
+    }
 
-  /* Hover card lift */
-  .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .card-hover:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(13,13,13,0.12); }
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 460px;
+      margin-bottom: 32px
+    }
 
-  /* Diagonal hero bg */
-  .hero-diagonal {
-    position: absolute;
-    top: 0; right: 0;
-    width: 42%;
-    height: 100%;
-    background: #0D0D0D;
-    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
-  }
+    .hero-desc strong {
+      color: var(--text);
+      font-weight: 600
+    }
 
-  /* Rotating badge */
-  .rotate-badge {
-    animation: spin 12s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px
+    }
 
-  /* Skill bar */
-  .skill-bar-fill { transition: width 1.2s ease; }
+    .hero-socials {
+      display: flex;
+      gap: 16px;
+      align-items: center
+    }
 
-  /* Timeline line */
-  .timeline-line {
-    position: absolute;
-    left: 19px;
-    top: 40px;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, #E8820C, #DDD8CF);
-  }
-</style>
+    .hero-socials a {
+      color: var(--text-dim);
+      transition: color 0.3s
+    }
+
+    .hero-socials a:hover {
+      color: var(--accent)
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .stat-card {
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      text-align: center
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 6px;
+      font-weight: 500
+    }
+
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      line-height: 2
+    }
+
+    .code-block .comment {
+      color: var(--text-dim)
+    }
+
+    .code-block .key {
+      color: var(--accent)
+    }
+
+    .code-block .str {
+      color: #34d399
+    }
+
+    .code-block .arr {
+      color: var(--accent2)
+    }
+
+    .code-block .bool {
+      color: var(--accent3)
+    }
+
+    .code-block .num {
+      color: #fbbf24
+    }
+
+    /* ═══ MARQUEE ═══ */
+    .marquee {
+      overflow: hidden;
+      padding: 16px 0;
+      background: linear-gradient(90deg, var(--surface), var(--bg2), var(--surface));
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border)
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 40px;
+      animation: scroll 25s linear infinite;
+      white-space: nowrap
+    }
+
+    @keyframes scroll {
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .marquee-track span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em
+    }
+
+    .marquee-track .dot {
+      color: var(--accent)
+    }
+
+    /* ═══ ABOUT ═══ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start
+    }
+
+    .about-avatar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px
+    }
+
+    .avatar-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #fff
+    }
+
+    .avatar-info .name {
+      font-weight: 600;
+      font-size: 1rem
+    }
+
+    .avatar-info .loc {
+      font-size: 0.8rem;
+      color: var(--text-muted)
+    }
+
+    .about-text {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 16px
+    }
+
+    .about-text strong {
+      color: var(--text);
+      font-weight: 600
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px
+    }
+
+    .tag {
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: var(--accent);
+      background: rgba(139, 92, 246, 0.06)
+    }
+
+    .about-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .metric-card {
+      padding: 20px;
+      text-align: center
+    }
+
+    .metric-card .value {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .metric-card .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px
+    }
+
+    .edu-card {
+      grid-column: span 2;
+      padding: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.2) !important;
+      background: rgba(139, 92, 246, 0.04) !important
+    }
+
+    .edu-card .mono {
+      font-size: 0.65rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px
+    }
+
+    .edu-card .title {
+      font-weight: 600;
+      font-size: 0.95rem
+    }
+
+    .edu-card .sub {
+      font-size: 0.8rem;
+      color: var(--text-muted)
+    }
+
+    /* ═══ EXPERIENCE ═══ */
+    #experience {
+      background: var(--bg2)
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 48px
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--glass-border))
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 32px
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -37px;
+      top: 4px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .timeline-dot.active {
+      background: var(--gradient);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4)
+    }
+
+    .timeline-dot.past {
+      background: var(--surface);
+      border: 1px solid var(--glass-border);
+      color: var(--text-dim)
+    }
+
+    .exp-card {
+      padding: 28px;
+      border-radius: var(--radius)
+    }
+
+    .exp-card:hover {
+      border-color: rgba(139, 92, 246, 0.3) !important
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .exp-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .exp-current {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--accent)
+    }
+
+    .exp-company {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 2px
+    }
+
+    .exp-date {
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      white-space: nowrap
+    }
+
+    .exp-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 10px
+    }
+
+    .exp-list li::before {
+      content: '▸';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .exp-list strong {
+      color: var(--text);
+      font-weight: 600
+    }
+
+    /* ═══ PROJECTS ═══ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px
+    }
+
+    .project-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .project-header {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .project-header .icon {
+      font-size: 2rem
+    }
+
+    .project-header .cat {
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em
+    }
+
+    .project-body {
+      padding: 0 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .project-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 4px
+    }
+
+    .project-sub {
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 500
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px
+    }
+
+    .project-tags span {
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.62rem;
+      font-family: 'JetBrains Mono', monospace
+    }
+
+    .project-features {
+      flex: 1;
+      margin-bottom: 16px
+    }
+
+    .project-features li {
+      display: flex;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 8px
+    }
+
+    .project-features li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0
+    }
+
+    .project-features strong {
+      color: var(--text);
+      font-weight: 600
+    }
+
+    .project-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--glass-border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: color 0.3s
+    }
+
+    .project-link:hover {
+      color: var(--accent)
+    }
+
+    .project-link .arrow {
+      transition: transform 0.3s
+    }
+
+    .project-link:hover .arrow {
+      transform: translateX(4px)
+    }
+
+    /* Featured project */
+    .project-featured {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.1)) !important;
+      border-color: rgba(139, 92, 246, 0.25) !important
+    }
+
+    .project-featured .project-name {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .project-featured .project-tags span {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text)
+    }
+
+    /* Dark project */
+    .project-dark {
+      background: var(--surface) !important;
+      border-color: rgba(255, 255, 255, 0.06) !important
+    }
+
+    .project-dark .project-name {
+      color: #fff
+    }
+
+    .project-dark .project-tags span {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted)
+    }
+
+    /* ═══ SKILLS ═══ */
+    #skills {
+      background: var(--bg2)
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .skill-group {
+      padding: 24px;
+      border-radius: var(--radius)
+    }
+
+    .skill-group:hover {
+      border-color: rgba(139, 92, 246, 0.3) !important
+    }
+
+    .skill-group-title {
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 16px
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .skill-pill {
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s
+    }
+
+    .skill-pill.primary {
+      background: var(--gradient);
+      color: #fff
+    }
+
+    .skill-pill.secondary {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text)
+    }
+
+    .skill-pill.secondary:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      color: var(--accent)
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 48px
+    }
+
+    .achievement-card {
+      padding: 24px;
+      text-align: center;
+      border-radius: var(--radius)
+    }
+
+    .achievement-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px
+    }
+
+    .achievement-card .title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 6px
+    }
+
+    .achievement-card .desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5
+    }
+
+    /* ═══ CONTACT ═══ */
+    .contact-center {
+      text-align: center
+    }
+
+    .contact-center .section-subtitle {
+      margin-left: auto;
+      margin-right: auto
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 640px;
+      margin: 0 auto 40px
+    }
+
+    .contact-card {
+      padding: 20px;
+      border-radius: var(--radius);
+      text-align: center;
+      transition: all 0.3s
+    }
+
+    .contact-card:hover {
+      border-color: rgba(139, 92, 246, 0.3) !important;
+      transform: translateY(-3px)
+    }
+
+    .contact-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px
+    }
+
+    .contact-card .label {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      font-weight: 500
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 24px 0;
+      text-align: center
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim)
+    }
+
+    footer span {
+      color: var(--accent)
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media(max-width:1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px
+      }
+
+      .hero-right {
+        order: -1
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(4, 1fr)
+      }
+
+      .code-block {
+        display: none
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:768px) {
+      .nav-links {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+
+      .section {
+        padding: 72px 0
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 120px 0 60px
+      }
+
+      .hero-name {
+        font-size: clamp(2.4rem, 10vw, 3.5rem)
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr
+      }
+
+      .achievements-grid {
+        grid-template-columns: 1fr
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .about-metrics {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .exp-header {
+        flex-direction: column
+      }
+    }
+
+    @media(max-width:480px) {
+      .container {
+        padding: 0 16px
+      }
+
+      .hero-actions {
+        flex-direction: column
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        justify-content: center
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+  </style>
 </head>
-<body class="bg-cream text-ink font-body">
 
-<!-- ═══ NAV ═══ -->
-<nav class="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur-sm border-b border-border">
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="#hero" class="font-display text-2xl tracking-widest text-ink">DS<span class="text-amber">.</span></a>
-    <ul class="hidden md:flex items-center gap-8">
-      <li><a href="#about" class="nav-link text-sm font-medium text-muted hover:text-ink transition-colors">About</a></li>
-      <li><a href="#experience" class="nav-link text-sm font-medium text-muted hover:text-ink transition-colors">Experience</a></li>
-      <li><a href="#projects" class="nav-link text-sm font-medium text-muted hover:text-ink transition-colors">Projects</a></li>
-      <li><a href="#skills" class="nav-link text-sm font-medium text-muted hover:text-ink transition-colors">Skills</a></li>
-      <li>
-        <a href="#contact" class="bg-ink text-cream text-sm font-semibold px-5 py-2 rounded-full hover:bg-amber transition-colors duration-300">
-          Hire Me
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<body>
 
-<!-- ═══ HERO ═══ -->
-<section id="hero" class="relative min-h-screen flex items-center overflow-hidden pt-16">
-  <div class="hero-diagonal"></div>
+  <!-- ═══ BACKGROUND ORBS ═══ -->
+  <div class="glow-orb" style="width:500px;height:500px;background:#8b5cf6;top:-200px;right:-100px"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:#06b6d4;bottom:20%;left:-150px"></div>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center py-20">
-
-    <!-- LEFT -->
-    <div>
-      <div class="inline-flex items-center gap-2 bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1.5 rounded-full mb-6">
-        <span class="w-1.5 h-1.5 bg-amber rounded-full animate-pulse"></span>
-        Open to Full-Time Roles · May 2026
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#hero" class="logo">DS<span>.</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact" class="nav-cta">Hire Me</a>
       </div>
-
-      <h1 class="font-display text-[5.5rem] leading-none tracking-wide text-ink mb-2">
-        DAVID<br>SHALOM<span class="text-amber">.</span>
-      </h1>
-
-      <div class="font-mono text-sm text-muted mb-5 flex items-center gap-2">
-        <span class="text-amber">&gt;</span>
-        <span id="typed"></span>
-      </div>
-
-      <p class="text-muted leading-relaxed max-w-md mb-8 text-[0.95rem]">
-        Final-year CS student building <span class="text-ink font-semibold">production-grade MERN applications</span> serving 1000+ real users. Currently working as a Full Stack AI Engineer.
-      </p>
-
-      <div class="flex flex-wrap gap-3 mb-10">
-        <a href="#projects" class="bg-amber text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-ink transition-colors duration-300 flex items-center gap-2">
-          View Projects
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#contact" class="border-2 border-ink text-ink font-semibold text-sm px-6 py-3 rounded-full hover:bg-ink hover:text-cream transition-colors duration-300">
-          Get in Touch
-        </a>
-      </div>
-
-      <div class="flex items-center gap-5">
-        <a href="https://github.com/davidShalom-git" target="_blank" class="flex items-center gap-1.5 text-muted text-sm font-medium hover:text-amber transition-colors">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/david-shalom-2a8b25240" target="_blank" class="flex items-center gap-1.5 text-muted text-sm font-medium hover:text-amber transition-colors">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="mailto:davidshalomswe@gmail.com" class="flex items-center gap-1.5 text-muted text-sm font-medium hover:text-amber transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Email
-        </a>
-      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-
-    <!-- RIGHT: Stats on dark bg -->
-    <div class="flex flex-col gap-4 md:pl-8">
-      <div class="grid grid-cols-2 gap-4">
-        <div class="bg-amber/10 border border-amber/20 rounded-2xl p-5 card-hover">
-          <div class="font-display text-5xl text-amber tracking-wide">1K+</div>
-          <div class="text-xs text-muted mt-1 font-medium uppercase tracking-wider">Users Served</div>
-        </div>
-        <div class="bg-white/60 border border-border rounded-2xl p-5 card-hover">
-          <div class="font-display text-5xl text-ink tracking-wide">3+</div>
-          <div class="text-xs text-muted mt-1 font-medium uppercase tracking-wider">Live Projects</div>
-        </div>
-        <div class="bg-white/60 border border-border rounded-2xl p-5 card-hover">
-          <div class="font-display text-5xl text-ink tracking-wide">5+</div>
-          <div class="text-xs text-muted mt-1 font-medium uppercase tracking-wider">Freelance Clients</div>
-        </div>
-        <div class="bg-amber/10 border border-amber/20 rounded-2xl p-5 card-hover">
-          <div class="font-display text-5xl text-amber tracking-wide">10+</div>
-          <div class="text-xs text-muted mt-1 font-medium uppercase tracking-wider">Certifications</div>
-        </div>
-      </div>
-
-      <!-- Code snippet card -->
-      <div class="bg-ink rounded-2xl p-5 font-mono text-xs leading-7">
-        <div class="text-muted mb-1">// profile.json</div>
-        <div><span class="text-amber">"role"</span><span class="text-white">: </span><span class="text-green-400">"Full Stack AI Engineer"</span>,</div>
-        <div><span class="text-amber">"stack"</span><span class="text-white">: </span><span class="text-blue-300">["MERN", "Next.js", "AI"]</span>,</div>
-        <div><span class="text-amber">"available"</span><span class="text-white">: </span><span class="text-green-400">true</span>,</div>
-        <div><span class="text-amber">"gpa"</span><span class="text-white">: </span><span class="text-purple-300">7.9</span></div>
-      </div>
-    </div>
+  </nav>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
   </div>
-</section>
 
-<!-- ═══ MARQUEE ═══ -->
-<div class="bg-amber py-3 overflow-hidden border-y-2 border-amber">
-  <div class="marquee-track text-white font-display text-xl tracking-[0.2em]">
-    <span>REACT.JS</span><span>·</span><span>NODE.JS</span><span>·</span><span>MONGODB</span><span>·</span>
-    <span>NEXT.JS</span><span>·</span><span>TYPESCRIPT</span><span>·</span><span>REACT NATIVE</span><span>·</span>
-    <span>GEMINI AI</span><span>·</span><span>N8N</span><span>·</span><span>VERCEL</span><span>·</span>
-    <span>EXPRESS.JS</span><span>·</span><span>JWT</span><span>·</span><span>TAILWIND CSS</span><span>·</span>
-    <!-- Duplicate for seamless loop -->
-    <span>REACT.JS</span><span>·</span><span>NODE.JS</span><span>·</span><span>MONGODB</span><span>·</span>
-    <span>NEXT.JS</span><span>·</span><span>TYPESCRIPT</span><span>·</span><span>REACT NATIVE</span><span>·</span>
-    <span>GEMINI AI</span><span>·</span><span>N8N</span><span>·</span><span>VERCEL</span><span>·</span>
-    <span>EXPRESS.JS</span><span>·</span><span>JWT</span><span>·</span><span>TAILWIND CSS</span><span>·</span>
-  </div>
-</div>
-
-<!-- ═══ ABOUT ═══ -->
-<section id="about" class="py-28 max-w-6xl mx-auto px-6">
-  <div class="grid md:grid-cols-2 gap-16 items-start">
-    <div class="reveal">
-      <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3">// 01 About</p>
-      <h2 class="font-display text-6xl leading-none tracking-wide text-ink mb-6">A DEVELOPER<br>WHO SHIPS<span class="text-amber">.</span></h2>
-
-      <!-- Avatar -->
-      <div class="flex items-center gap-4 mb-6">
-        <div class="w-16 h-16 rounded-2xl bg-amber flex items-center justify-center font-display text-2xl text-white shadow-lg">DS</div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
         <div>
-          <div class="font-semibold text-ink">David Shalom M</div>
-          <div class="text-sm text-muted">Tiruvannamalai, Tamil Nadu · India</div>
+          <div class="hero-badge reveal"><span class="pulse"></span> Open to Full-Time Roles · May 2026</div>
+          <h1 class="hero-name reveal reveal-d1">DAVID<br><span class="gradient">SHALOM.</span></h1>
+          <div class="hero-typed reveal reveal-d2"><span style="color:var(--accent)">&gt;</span> <span
+              id="typed"></span><span class="cursor">|</span></div>
+          <p class="hero-desc reveal reveal-d2">Final-year CS student building <strong>production-grade MERN
+              applications</strong> serving 1000+ real users. Currently working as a Full Stack AI Engineer.</p>
+          <div class="hero-actions reveal reveal-d3">
+            <a href="#projects" class="btn btn-primary">View Projects <svg width="16" height="16" fill="none"
+                stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg></a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
+          </div>
+          <div class="hero-socials reveal reveal-d4">
+            <a href="https://github.com/davidShalom-git" target="_blank" aria-label="GitHub"><svg width="20" height="20"
+                fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+              </svg></a>
+            <a href="https://www.linkedin.com/in/david-shalom-2a8b25240" target="_blank" aria-label="LinkedIn"><svg
+                width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg></a>
+            <a href="mailto:davidshalomswe@gmail.com" aria-label="Email"><svg width="20" height="20" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></a>
+          </div>
+        </div>
+        <div class="hero-right reveal reveal-d2">
+          <div class="stat-grid">
+            <div class="stat-card glass-card">
+              <div class="stat-number">1K+</div>
+              <div class="stat-label">Users Served</div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-number">3+</div>
+              <div class="stat-label">Live Projects</div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">Freelance Clients</div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Certifications</div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="comment">// profile.json</div>
+            <div><span class="key">"role"</span>: <span class="str">"Full Stack AI Engineer"</span>,</div>
+            <div><span class="key">"stack"</span>: <span class="arr">["MERN", "Next.js", "AI"]</span>,</div>
+            <div><span class="key">"available"</span>: <span class="bool">true</span>,</div>
+            <div><span class="key">"gpa"</span>: <span class="num">7.9</span></div>
+          </div>
         </div>
       </div>
-
-      <p class="text-muted leading-relaxed mb-4 text-[0.95rem]">
-        Final-year Computer Science student at <span class="text-ink font-semibold">Arunai Engineering College</span> (GPA 7.9/10, graduating May 2026). I build production-ready full-stack applications with the MERN stack.
-      </p>
-      <p class="text-muted leading-relaxed mb-8 text-[0.95rem]">
-        I've delivered apps used by <span class="text-ink font-semibold">1000+ real users</span>, completed an industry internship building AI-integrated platforms, and currently working as a <span class="text-ink font-semibold">Full Stack AI Engineer</span> at Saketh AI Automation.
-      </p>
-
-      <div class="flex flex-wrap gap-2">
-        <span class="bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1 rounded-full">Full-Stack MERN</span>
-        <span class="bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1 rounded-full">AI Integration</span>
-        <span class="bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1 rounded-full">React Native</span>
-        <span class="bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1 rounded-full">API Design</span>
-        <span class="bg-amber-light border border-amber/30 text-amber text-xs font-mono px-3 py-1 rounded-full">N8N Automation</span>
-      </div>
     </div>
+  </section>
 
-    <div class="reveal reveal-delay-2 grid grid-cols-2 gap-4">
-      <div class="col-span-2 bg-ink text-cream rounded-2xl p-6 card-hover">
-        <div class="font-display text-4xl text-amber mb-1">40%</div>
-        <div class="text-sm text-white/70">Reduction in content creation time via AI-powered blog platform</div>
-      </div>
-      <div class="bg-white border border-border rounded-2xl p-5 card-hover">
-        <div class="font-display text-3xl text-ink mb-1">35%</div>
-        <div class="text-xs text-muted">Faster page load with query optimization</div>
-      </div>
-      <div class="bg-white border border-border rounded-2xl p-5 card-hover">
-        <div class="font-display text-3xl text-ink mb-1">60%</div>
-        <div class="text-xs text-muted">Less ops overhead with Gemini AI automation</div>
-      </div>
-      <div class="col-span-2 bg-amber/10 border border-amber/30 rounded-2xl p-5 card-hover">
-        <div class="text-xs font-mono text-amber uppercase tracking-widest mb-2">Education</div>
-        <div class="font-semibold text-ink">B.E. Computer Science & Engineering</div>
-        <div class="text-sm text-muted">Arunai Engineering College · GPA 7.9/10 · May 2026</div>
-      </div>
+  <!-- ═══ MARQUEE ═══ -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>REACT.JS</span><span class="dot">·</span><span>NODE.JS</span><span
+        class="dot">·</span><span>MONGODB</span><span class="dot">·</span>
+      <span>NEXT.JS</span><span class="dot">·</span><span>TYPESCRIPT</span><span class="dot">·</span><span>REACT
+        NATIVE</span><span class="dot">·</span>
+      <span>GEMINI AI</span><span class="dot">·</span><span>N8N</span><span class="dot">·</span><span>VERCEL</span><span
+        class="dot">·</span>
+      <span>EXPRESS.JS</span><span class="dot">·</span><span>JWT</span><span class="dot">·</span><span>TAILWIND
+        CSS</span><span class="dot">·</span>
+      <span>REACT.JS</span><span class="dot">·</span><span>NODE.JS</span><span
+        class="dot">·</span><span>MONGODB</span><span class="dot">·</span>
+      <span>NEXT.JS</span><span class="dot">·</span><span>TYPESCRIPT</span><span class="dot">·</span><span>REACT
+        NATIVE</span><span class="dot">·</span>
+      <span>GEMINI AI</span><span class="dot">·</span><span>N8N</span><span class="dot">·</span><span>VERCEL</span><span
+        class="dot">·</span>
+      <span>EXPRESS.JS</span><span class="dot">·</span><span>JWT</span><span class="dot">·</span><span>TAILWIND
+        CSS</span><span class="dot">·</span>
     </div>
   </div>
-</section>
 
-<!-- ═══ EXPERIENCE ═══ -->
-<section id="experience" class="py-24 bg-ink text-cream">
-  <div class="max-w-6xl mx-auto px-6">
-    <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3 reveal">// 02 Experience</p>
-    <h2 class="font-display text-6xl leading-none tracking-wide text-cream mb-14 reveal">INDUSTRY<br>EXPERIENCE<span class="text-amber">.</span></h2>
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="section-label">01 About</div>
+          <h2 class="section-title">A Developer<br>Who Ships.</h2>
+          <div class="about-avatar">
+            <div class="avatar-box">DS</div>
+            <div class="avatar-info">
+              <div class="name">David Shalom M</div>
+              <div class="loc">Tiruvannamalai, Tamil Nadu · India</div>
+            </div>
+          </div>
+          <p class="about-text">Final-year Computer Science student at <strong>Arunai Engineering College</strong> (GPA
+            7.9/10, graduating May 2026). I build production-ready full-stack applications with the MERN stack.</p>
+          <p class="about-text">I've delivered apps used by <strong>1000+ real users</strong>, completed an industry
+            internship building AI-integrated platforms, and currently working as a <strong>Full Stack AI
+              Engineer</strong> at Saketh AI Automation.</p>
+          <div class="tag-list">
+            <span class="tag">Full-Stack MERN</span><span class="tag">AI Integration</span><span class="tag">React
+              Native</span><span class="tag">API Design</span><span class="tag">N8N Automation</span>
+          </div>
+        </div>
+        <div class="reveal reveal-d2">
+          <div class="about-metrics">
+            <div class="metric-card glass-card">
+              <div class="value">40%</div>
+              <div class="label">Reduction in content creation time</div>
+            </div>
+            <div class="metric-card glass-card">
+              <div class="value">35%</div>
+              <div class="label">Faster page load</div>
+            </div>
+            <div class="metric-card glass-card">
+              <div class="value">60%</div>
+              <div class="label">Less ops overhead</div>
+            </div>
+            <div class="metric-card glass-card">
+              <div class="value">100+</div>
+              <div class="label">Concurrent users</div>
+            </div>
+            <div class="edu-card glass-card">
+              <div class="mono">Education</div>
+              <div class="title">B.E. Computer Science & Engineering</div>
+              <div class="sub">Arunai Engineering College · GPA 7.9/10 · May 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <div class="relative pl-12">
-      <div class="timeline-line"></div>
-
-      <!-- Job 1 — Current -->
-      <div class="relative mb-12 reveal">
-        <div class="absolute left-[-30px] top-1 w-10 h-10 bg-amber rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-amber/40">01</div>
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-7 hover:border-amber/40 transition-colors duration-300">
-          <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-            <div>
-              <div class="flex items-center gap-3 mb-1">
-                <h3 class="text-xl font-semibold text-white">Full Stack AI Engineer</h3>
-                <span class="bg-amber/20 border border-amber/40 text-amber font-mono text-[0.6rem] px-2.5 py-0.5 rounded-full tracking-wide">● CURRENT</span>
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section id="experience" class="section">
+    <div class="container">
+      <div class="section-label reveal">02 Experience</div>
+      <h2 class="section-title reveal">Industry<br>Experience.</h2>
+      <div class="section-subtitle reveal">Real-world engineering roles building production systems.</div>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot active">01</div>
+          <div class="exp-card glass-card">
+            <div class="exp-header">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                  <div class="exp-title">Full Stack AI Engineer</div>
+                  <span class="exp-current">● CURRENT</span>
+                </div>
+                <div class="exp-company">Saketh AI Automation · Hyderabad</div>
               </div>
-              <div class="text-amber text-sm font-medium">Saketh AI Automation &nbsp;·&nbsp; Hyderabad</div>
+              <div class="exp-date">Jan 2025 – Present · 6 months</div>
             </div>
-            <div class="bg-white/10 border border-white/20 text-white/60 font-mono text-xs px-4 py-1.5 rounded-full whitespace-nowrap">
-              Jan 2025 – Present · 6 months
-            </div>
+            <ul class="exp-list">
+              <li>Building and deploying <strong>full-stack AI-integrated web applications</strong> using the MERN stack
+                with modern automation pipelines.</li>
+              <li>Designing and integrating <strong>AI-powered features and automation workflows</strong> to streamline
+                business processes and reduce manual effort.</li>
+              <li>Working end-to-end from <strong>backend API design</strong> to responsive frontend delivery in a live
+                production environment.</li>
+            </ul>
           </div>
-          <ul class="space-y-3">
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Building and deploying <span class="text-white font-medium">full-stack AI-integrated web applications</span> using the MERN stack with modern automation pipelines.</span>
-            </li>
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Designing and integrating <span class="text-white font-medium">AI-powered features and automation workflows</span> to streamline business processes and reduce manual effort.</span>
-            </li>
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Working end-to-end from <span class="text-white font-medium">backend API design</span> to responsive frontend delivery in a live production environment.</span>
-            </li>
-          </ul>
         </div>
-      </div>
-
-      <!-- Job 2 -->
-      <div class="relative reveal reveal-delay-1">
-        <div class="absolute left-[-30px] top-1 w-10 h-10 bg-white/10 border border-white/20 rounded-full flex items-center justify-center text-white/60 font-bold text-sm">02</div>
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-7 hover:border-amber/40 transition-colors duration-300">
-          <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-            <div>
-              <h3 class="text-xl font-semibold text-white mb-1">MERN Stack Developer Intern</h3>
-              <div class="text-amber text-sm font-medium">WebTrendz Technologies India Pvt Ltd &nbsp;·&nbsp; Tiruvannamalai, TN</div>
+        <div class="timeline-item reveal reveal-d1">
+          <div class="timeline-dot past">02</div>
+          <div class="exp-card glass-card">
+            <div class="exp-header">
+              <div>
+                <div class="exp-title">MERN Stack Developer Intern</div>
+                <div class="exp-company">WebTrendz Technologies India Pvt Ltd · Tiruvannamalai, TN</div>
+              </div>
+              <div class="exp-date">Jul 2025 – Aug 2025 · 2 months</div>
             </div>
-            <div class="bg-white/10 border border-white/20 text-white/60 font-mono text-xs px-4 py-1.5 rounded-full whitespace-nowrap">
-              Jul 2025 – Aug 2025 · 2 months
-            </div>
+            <ul class="exp-list">
+              <li>Engineered <strong>3+ production-ready MERN applications</strong> with RESTful APIs and fully
+                responsive design across all screen sizes.</li>
+              <li>Developed an <strong>AI-powered blog platform</strong> with JWT authentication — reduced content
+                creation time by <strong style="color:var(--accent)">40%</strong>.</li>
+              <li>Collaborated on code reviews, Git version control, and database optimization — improving performance
+                for <strong>100+ concurrent users</strong>.</li>
+            </ul>
           </div>
-          <ul class="space-y-3">
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Engineered <span class="text-white font-medium">3+ production-ready MERN applications</span> with RESTful APIs and fully responsive design across all screen sizes.</span>
-            </li>
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Developed an <span class="text-white font-medium">AI-powered blog platform</span> with JWT authentication — reduced content creation time by <span class="text-amber font-semibold">40%</span>.</span>
-            </li>
-            <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
-              <span class="text-amber mt-0.5 flex-shrink-0">▸</span>
-              <span>Collaborated on code reviews, Git version control, and database optimization — improving performance for <span class="text-white font-medium">100+ concurrent users</span>.</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ PROJECTS ═══ -->
-<section id="projects" class="py-28 max-w-6xl mx-auto px-6">
-  <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3 reveal">// 03 Projects</p>
-  <h2 class="font-display text-6xl leading-none tracking-wide text-ink mb-14 reveal">SELECTED<br>WORK<span class="text-amber">.</span></h2>
-
-  <div class="grid md:grid-cols-3 gap-6">
-
-    <!-- Project 1 -->
-    <div class="reveal bg-white border border-border rounded-2xl overflow-hidden card-hover flex flex-col">
-      <div class="bg-ink p-6 flex items-center justify-between">
-        <div class="text-4xl">📚</div>
-        <div class="font-mono text-xs text-white/40 uppercase tracking-widest">MERN · Auth · Cloud</div>
-      </div>
-      <div class="p-6 flex flex-col flex-1">
-        <h3 class="font-display text-3xl tracking-wide text-ink mb-1">BOOK VAULT</h3>
-        <p class="text-amber text-xs font-medium mb-4">Full-stack digital library</p>
-        <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="bg-cream border border-border text-muted font-mono text-[0.65rem] px-2 py-0.5 rounded">React.js</span>
-          <span class="bg-cream border border-border text-muted font-mono text-[0.65rem] px-2 py-0.5 rounded">Node.js</span>
-          <span class="bg-cream border border-border text-muted font-mono text-[0.65rem] px-2 py-0.5 rounded">MongoDB</span>
-          <span class="bg-cream border border-border text-muted font-mono text-[0.65rem] px-2 py-0.5 rounded">Tailwind</span>
-          <span class="bg-cream border border-border text-muted font-mono text-[0.65rem] px-2 py-0.5 rounded">Clerk Auth</span>
+  <!-- ═══ PROJECTS ═══ -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-label reveal">03 Projects</div>
+      <h2 class="section-title reveal">Selected<br>Work.</h2>
+      <div class="section-subtitle reveal">Production-grade applications with real users and measurable impact.</div>
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card glass-card reveal">
+          <div class="project-header">
+            <div class="icon">📚</div>
+            <div class="cat">MERN · Auth · Cloud</div>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Book Vault</div>
+            <div class="project-sub">Full-stack digital library</div>
+            <div class="project-tags">
+              <span style="background:rgba(139,92,246,0.15);color:var(--accent)">React.js</span>
+              <span style="background:rgba(6,182,212,0.15);color:var(--accent2)">Node.js</span>
+              <span style="background:var(--glass);color:var(--text-muted)">MongoDB</span>
+              <span style="background:var(--glass);color:var(--text-muted)">Tailwind</span>
+              <span style="background:var(--glass);color:var(--text-muted)">Clerk Auth</span>
+            </div>
+            <ul class="project-features">
+              <li>Full-stack library serving <strong>1000+ users</strong> with secure file upload pipeline</li>
+              <li>OAuth + Role-Based Access Control with personalized dashboards</li>
+              <li>Reduced page load by <strong>35%</strong> — 10GB+ cloud storage</li>
+            </ul>
+            <a href="https://library-2025.vercel.app/" target="_blank" class="project-link">View Live Demo <span
+                class="arrow">→</span></a>
+          </div>
         </div>
-        <ul class="space-y-2 flex-1 mb-5">
-          <li class="flex gap-2.5 text-muted text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>Full-stack library serving <strong class="text-ink font-semibold">1000+ users</strong> with secure file upload pipeline</span>
-          </li>
-          <li class="flex gap-2.5 text-muted text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>OAuth + Role-Based Access Control with personalized dashboards</span>
-          </li>
-          <li class="flex gap-2.5 text-muted text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>Reduced page load by <strong class="text-ink font-semibold">35%</strong> — 10GB+ cloud storage</span>
-          </li>
-        </ul>
-        <div class="border-t border-border pt-4">
-          <a href="https://library-2025.vercel.app/" target="_blank" class="flex items-center justify-between text-sm font-semibold text-ink hover:text-amber transition-colors group">
-            View Live Demo
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
-          </a>
+        <!-- Project 2 - Featured -->
+        <div class="project-card glass-card project-featured reveal reveal-d1">
+          <div class="project-header">
+            <div class="icon">🍳</div>
+            <div class="cat">Mobile · Offline</div>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Recipe Finder</div>
+            <div class="project-sub">Cross-platform mobile app</div>
+            <div class="project-tags">
+              <span>React Native</span><span>Node.js</span><span>MongoDB</span><span>JWT</span>
+            </div>
+            <ul class="project-features">
+              <li>Cross-platform app with <strong>500+ curated recipes</strong></li>
+              <li>Ingredient search, nutrition tracking, offline-first architecture</li>
+              <li>Secure JWT auth — <strong>99% uptime</strong> on iOS & Android</li>
+            </ul>
+            <a href="RecipeFinder.apk" download class="project-link">📱 Download APK <span class="arrow">→</span></a>
+            <a href="https://github.com/davidShalom-git" target="_blank" class="project-link"
+              style="border-top:none;padding-top:8px;font-size:0.75rem;color:var(--text-muted)">View Source Code <span
+                class="arrow">→</span></a>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Project 2 — Featured (amber) -->
-    <div class="reveal reveal-delay-1 bg-amber rounded-2xl overflow-hidden card-hover flex flex-col">
-      <div class="bg-amber-800/20 p-6 flex items-center justify-between">
-        <div class="text-4xl">🍳</div>
-        <div class="font-mono text-xs text-white/60 uppercase tracking-widest">Mobile · Offline</div>
-      </div>
-      <div class="p-6 flex flex-col flex-1">
-        <h3 class="font-display text-3xl tracking-wide text-white mb-1">RECIPE<br>FINDER</h3>
-        <p class="text-white/70 text-xs font-medium mb-4">Cross-platform mobile app</p>
-        <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="bg-white/20 text-white font-mono text-[0.65rem] px-2 py-0.5 rounded">React Native</span>
-          <span class="bg-white/20 text-white font-mono text-[0.65rem] px-2 py-0.5 rounded">Node.js</span>
-          <span class="bg-white/20 text-white font-mono text-[0.65rem] px-2 py-0.5 rounded">MongoDB</span>
-          <span class="bg-white/20 text-white font-mono text-[0.65rem] px-2 py-0.5 rounded">JWT</span>
-        </div>
-        <ul class="space-y-2 flex-1 mb-5">
-          <li class="flex gap-2.5 text-white/80 text-sm leading-relaxed">
-            <span class="text-white flex-shrink-0 mt-0.5">→</span>
-            <span>Cross-platform app with <strong class="text-white font-semibold">500+ curated recipes</strong></span>
-          </li>
-          <li class="flex gap-2.5 text-white/80 text-sm leading-relaxed">
-            <span class="text-white flex-shrink-0 mt-0.5">→</span>
-            <span>Ingredient search, nutrition tracking, offline-first architecture</span>
-          </li>
-          <li class="flex gap-2.5 text-white/80 text-sm leading-relaxed">
-            <span class="text-white flex-shrink-0 mt-0.5">→</span>
-            <span>Secure JWT auth — <strong class="text-white font-semibold">99% uptime</strong> on iOS & Android</span>
-          </li>
-        </ul>
-        <div class="border-t border-white/30 pt-4 flex flex-col gap-2">
-          <a href="RecipeFinder.apk" download class="flex items-center justify-between text-sm font-semibold text-white hover:text-white/70 transition-colors group">
-            📱 Download APK
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
-          </a>
-          <a href="https://github.com/davidShalom-git" target="_blank" class="flex items-center justify-between text-xs font-medium text-white/60 hover:text-white/80 transition-colors group">
-            View Source Code
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
-          </a>
+        <!-- Project 3 -->
+        <div class="project-card glass-card project-dark reveal reveal-d2">
+          <div class="project-header">
+            <div class="icon">🤖</div>
+            <div class="cat">AI · SaaS</div>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Smart Edu Platform</div>
+            <div class="project-sub">AI-powered learning SaaS</div>
+            <div class="project-tags">
+              <span>Next.js</span><span>Gemini AI</span><span>N8N</span><span>MongoDB</span><span>Vercel</span>
+            </div>
+            <ul class="project-features">
+              <li>AI SaaS with 4 modules: courses, assessments, analytics, collaboration</li>
+              <li>Automated 5+ workflows with Gemini AI — <strong>60% less overhead</strong></li>
+              <li>SSR + serverless architecture deployed on Vercel</li>
+            </ul>
+            <a href="https://smart-education-2025.vercel.app/" target="_blank" class="project-link"
+              style="color:var(--accent)">View Live Demo <span class="arrow">→</span></a>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Project 3 -->
-    <div class="reveal reveal-delay-2 bg-ink rounded-2xl overflow-hidden card-hover flex flex-col">
-      <div class="bg-white/5 p-6 flex items-center justify-between">
-        <div class="text-4xl">🤖</div>
-        <div class="font-mono text-xs text-white/40 uppercase tracking-widest">AI · SaaS</div>
-      </div>
-      <div class="p-6 flex flex-col flex-1">
-        <h3 class="font-display text-3xl tracking-wide text-white mb-1">SMART EDU<br>PLATFORM</h3>
-        <p class="text-amber text-xs font-medium mb-4">AI-powered learning SaaS</p>
-        <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="bg-white/10 text-white/60 font-mono text-[0.65rem] px-2 py-0.5 rounded">Next.js</span>
-          <span class="bg-white/10 text-white/60 font-mono text-[0.65rem] px-2 py-0.5 rounded">Gemini AI</span>
-          <span class="bg-white/10 text-white/60 font-mono text-[0.65rem] px-2 py-0.5 rounded">N8N</span>
-          <span class="bg-white/10 text-white/60 font-mono text-[0.65rem] px-2 py-0.5 rounded">MongoDB</span>
-          <span class="bg-white/10 text-white/60 font-mono text-[0.65rem] px-2 py-0.5 rounded">Vercel</span>
+  <!-- ═══ SKILLS ═══ -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-label reveal">04 Skills</div>
+      <h2 class="section-title reveal">Technical<br>Stack.</h2>
+      <div class="section-subtitle reveal">Technologies I use to bring ideas to production.</div>
+      <div class="skills-grid">
+        <div class="skill-group glass-card reveal">
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">JavaScript</span><span class="skill-pill primary">TypeScript</span><span
+              class="skill-pill secondary">Java</span>
+          </div>
         </div>
-        <ul class="space-y-2 flex-1 mb-5">
-          <li class="flex gap-2.5 text-white/60 text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>AI SaaS with 4 modules: courses, assessments, analytics, collaboration</span>
-          </li>
-          <li class="flex gap-2.5 text-white/60 text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>Automated 5+ workflows with Gemini AI — <strong class="text-white font-semibold">60% less overhead</strong></span>
-          </li>
-          <li class="flex gap-2.5 text-white/60 text-sm leading-relaxed">
-            <span class="text-amber flex-shrink-0 mt-0.5">→</span>
-            <span>SSR + serverless architecture deployed on Vercel</span>
-          </li>
-        </ul>
-        <div class="border-t border-white/10 pt-4">
-          <a href="https://smart-education-2025.vercel.app/" target="_blank" class="flex items-center justify-between text-sm font-semibold text-amber hover:text-white transition-colors group">
-            View Live Demo
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
-          </a>
+        <div class="skill-group glass-card reveal reveal-d1">
+          <div class="skill-group-title">Frontend</div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">React.js</span><span class="skill-pill primary">Next.js</span><span
+              class="skill-pill secondary">HTML5</span><span class="skill-pill secondary">CSS3</span><span
+              class="skill-pill secondary">Tailwind CSS</span>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ SKILLS ═══ -->
-<section id="skills" class="py-24 bg-ink text-cream">
-  <div class="max-w-6xl mx-auto px-6">
-    <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3 reveal">// 04 Skills</p>
-    <h2 class="font-display text-6xl leading-none tracking-wide text-cream mb-14 reveal">TECHNICAL<br>STACK<span class="text-amber">.</span></h2>
-
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="reveal bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-amber/30 transition-colors">
-        <div class="font-mono text-xs text-amber uppercase tracking-widest mb-5">Languages</div>
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">JavaScript</span>
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">TypeScript</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Java</span>
+        <div class="skill-group glass-card reveal">
+          <div class="skill-group-title">Backend & APIs</div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">Node.js</span><span class="skill-pill primary">Express.js</span><span
+              class="skill-pill secondary">REST APIs</span><span class="skill-pill secondary">JWT</span><span
+              class="skill-pill secondary">Clerk</span>
+          </div>
+        </div>
+        <div class="skill-group glass-card reveal reveal-d1">
+          <div class="skill-group-title">Database, Mobile & Tools</div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">MongoDB</span><span class="skill-pill primary">React Native</span><span
+              class="skill-pill secondary">MySQL</span><span class="skill-pill secondary">Git</span><span
+              class="skill-pill secondary">N8N</span><span class="skill-pill secondary">Vercel</span><span
+              class="skill-pill secondary">Postman</span><span class="skill-pill secondary">Expo</span>
+          </div>
         </div>
       </div>
-
-      <div class="reveal reveal-delay-1 bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-amber/30 transition-colors">
-        <div class="font-mono text-xs text-amber uppercase tracking-widest mb-5">Frontend</div>
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">React.js</span>
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">Next.js</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">HTML5</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">CSS3</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Tailwind CSS</span>
+      <!-- Achievements -->
+      <div class="achievements-grid">
+        <div class="achievement-card glass-card reveal">
+          <div class="icon">🏆</div>
+          <div class="title">10+ Certifications</div>
+          <div class="desc">Java, JavaScript, MySQL, and MERN Stack development courses</div>
         </div>
-      </div>
-
-      <div class="reveal bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-amber/30 transition-colors">
-        <div class="font-mono text-xs text-amber uppercase tracking-widest mb-5">Backend & APIs</div>
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">Node.js</span>
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">Express.js</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">REST APIs</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">JWT</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Clerk</span>
+        <div class="achievement-card glass-card reveal reveal-d1">
+          <div class="icon">⚡</div>
+          <div class="title">AI Hackathon</div>
+          <div class="desc">Competed in 24-hour AI domain hackathon, prototyping real-world AI solutions</div>
         </div>
-      </div>
-
-      <div class="reveal reveal-delay-1 bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-amber/30 transition-colors">
-        <div class="font-mono text-xs text-amber uppercase tracking-widest mb-5">Database, Mobile & Tools</div>
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">MongoDB</span>
-          <span class="bg-amber text-white font-medium text-sm px-4 py-1.5 rounded-full">React Native</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">MySQL</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Git</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">N8N</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Vercel</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Postman</span>
-          <span class="bg-white/10 text-white font-medium text-sm px-4 py-1.5 rounded-full">Expo</span>
+        <div class="achievement-card glass-card reveal reveal-d2">
+          <div class="icon">💼</div>
+          <div class="title">Freelance Delivery</div>
+          <div class="desc">5+ client projects delivered end-to-end in web & software development</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Achievements -->
-    <div class="mt-16">
-      <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3 reveal">// Achievements</p>
-      <h3 class="font-display text-4xl tracking-wide text-cream mb-8 reveal">HIGHLIGHTS<span class="text-amber">.</span></h3>
-      <div class="grid md:grid-cols-3 gap-5">
-        <div class="reveal bg-amber/10 border border-amber/30 rounded-2xl p-6 card-hover text-center">
-          <div class="text-4xl mb-3">🏆</div>
-          <div class="font-semibold text-white mb-2">10+ Certifications</div>
-          <div class="text-sm text-white/60">Java, JavaScript, MySQL, and MERN Stack development courses</div>
-        </div>
-        <div class="reveal reveal-delay-1 bg-white/5 border border-white/10 rounded-2xl p-6 card-hover text-center">
-          <div class="text-4xl mb-3">⚡</div>
-          <div class="font-semibold text-white mb-2">AI Hackathon</div>
-          <div class="text-sm text-white/60">Competed in 24-hour AI domain hackathon, prototyping real-world AI solutions</div>
-        </div>
-        <div class="reveal reveal-delay-2 bg-white/5 border border-white/10 rounded-2xl p-6 card-hover text-center">
-          <div class="text-4xl mb-3">💼</div>
-          <div class="font-semibold text-white mb-2">Freelance Delivery</div>
-          <div class="text-sm text-white/60">5+ client projects delivered end-to-end in web & software development</div>
-        </div>
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact" class="section">
+    <div class="container contact-center">
+      <div class="section-label reveal" style="justify-content:center">05 Contact</div>
+      <h2 class="section-title reveal">Let's<br>Connect.</h2>
+      <p class="section-subtitle reveal" style="margin-left:auto;margin-right:auto">Seeking full-time SWE roles starting
+        May 2026. Always open to interesting problems and great teams.</p>
+      <div class="contact-grid reveal">
+        <a href="mailto:davidshalomswe@gmail.com" class="contact-card glass-card">
+          <div class="icon">✉️</div>
+          <div class="label">Email</div>
+        </a>
+        <a href="tel:+917539943015" class="contact-card glass-card">
+          <div class="icon">📱</div>
+          <div class="label">+91 7539943015</div>
+        </a>
+        <a href="https://www.linkedin.com/in/david-shalom-2a8b25240" target="_blank" class="contact-card glass-card">
+          <div class="icon">🔗</div>
+          <div class="label">LinkedIn</div>
+        </a>
+        <a href="https://github.com/davidShalom-git" target="_blank" class="contact-card glass-card">
+          <div class="icon">⌨️</div>
+          <div class="label">GitHub</div>
+        </a>
       </div>
+      <a href="mailto:davidshalomswe@gmail.com" class="btn btn-primary reveal">Say Hello <svg width="16" height="16"
+          fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ CONTACT ═══ -->
-<section id="contact" class="py-28 max-w-6xl mx-auto px-6 text-center">
-  <p class="font-mono text-xs text-amber uppercase tracking-[0.2em] mb-3 reveal">// 05 Contact</p>
-  <h2 class="font-display text-[5rem] leading-none tracking-wide text-ink mb-5 reveal">LET'S<br>CONNECT<span class="text-amber">.</span></h2>
-  <p class="text-muted max-w-md mx-auto mb-12 text-[0.95rem] leading-relaxed reveal">
-    Seeking full-time SWE roles starting May 2026. Always open to interesting problems and great teams.
-  </p>
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <p>© 2026 <span>David Shalom M</span> · Crafted with passion</p>
+  </footer>
 
-  <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-12 reveal">
-    <a href="mailto:davidshalomswe@gmail.com" class="bg-white border border-border rounded-2xl p-5 card-hover flex flex-col items-center gap-2 text-muted hover:text-amber hover:border-amber/40 transition-all">
-      <span class="text-2xl">✉️</span>
-      <span class="text-xs font-mono font-medium">Email</span>
-    </a>
-    <a href="tel:+917539943015" class="bg-white border border-border rounded-2xl p-5 card-hover flex flex-col items-center gap-2 text-muted hover:text-amber hover:border-amber/40 transition-all">
-      <span class="text-2xl">📱</span>
-      <span class="text-xs font-mono font-medium">+91 7539943015</span>
-    </a>
-    <a href="https://www.linkedin.com/in/david-shalom-2a8b25240" target="_blank" class="bg-white border border-border rounded-2xl p-5 card-hover flex flex-col items-center gap-2 text-muted hover:text-amber hover:border-amber/40 transition-all">
-      <span class="text-2xl">🔗</span>
-      <span class="text-xs font-mono font-medium">LinkedIn</span>
-    </a>
-    <a href="https://github.com/davidShalom-git" target="_blank" class="bg-white border border-border rounded-2xl p-5 card-hover flex flex-col items-center gap-2 text-muted hover:text-amber hover:border-amber/40 transition-all">
-      <span class="text-2xl">⌨️</span>
-      <span class="text-xs font-mono font-medium">GitHub</span>
-    </a>
-  </div>
+  <script>
+    // ═══ TYPING ANIMATION ═══
+    const phrases = ['Full-Stack MERN Developer', 'Full Stack AI Engineer', 'React & Node.js Engineer', 'Mobile App Developer'];
+    let pi = 0, ci = 0, del = false;
+    const typedEl = document.getElementById('typed');
+    function typeLoop() {
+      const cur = phrases[pi];
+      typedEl.textContent = del ? cur.slice(0, ci - 1) : cur.slice(0, ci + 1);
+      del ? ci-- : ci++;
+      if (!del && ci === cur.length) { del = true; setTimeout(typeLoop, 2000); return }
+      if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length }
+      setTimeout(typeLoop, del ? 40 : 70);
+    }
+    typeLoop();
 
-  <a href="mailto:davidshalomswe@gmail.com" class="inline-flex items-center gap-3 bg-ink text-cream font-semibold text-base px-10 py-4 rounded-full hover:bg-amber transition-colors duration-300 reveal">
-    Say Hello
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </a>
-</section>
+    // ═══ SCROLL REVEAL ═══
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-<!-- FOOTER -->
-<footer class="border-t border-border py-6 text-center">
-  <p class="font-mono text-xs text-muted">© 2026 <span class="text-amber">David Shalom M</span> · Built with HTML, Tailwind CSS & JS</p>
-</footer>
+    // ═══ NAVBAR SCROLL ═══
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
 
-<script>
-  // Typing animation
-  const phrases = ['Full-Stack MERN Developer', 'Full Stack AI Engineer', 'React & Node.js Engineer', 'Mobile App Developer'];
-  let pi = 0, ci = 0, del = false;
-  const el = document.getElementById('typed');
-  function type() {
-    const cur = phrases[pi];
-    el.textContent = del ? cur.slice(0, ci - 1) : cur.slice(0, ci + 1);
-    del ? ci-- : ci++;
-    if (!del && ci === cur.length) { del = true; setTimeout(type, 2000); return; }
-    if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
-    setTimeout(type, del ? 45 : 75);
-  }
-  type()
+    // ═══ MOBILE MENU ═══
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    function toggleMenu() {
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('open');
+      mobileOverlay.classList.toggle('open');
+      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', toggleMenu);
+    mobileOverlay.addEventListener('click', toggleMenu);
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', toggleMenu));
 
-  // Scroll reveal
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
+    // ═══ SMOOTH SCROLL ═══
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
+
 </html>
